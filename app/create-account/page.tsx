@@ -1,11 +1,10 @@
-import { FormMessage } from '@/components/form-message';
 import FormErrorMessage from '@/components/form-error-message';
-import { Input } from '@/components/ui/input';
 import { SubmitButton } from '@/components/submit-button';
-import Link from 'next/link';
-import { signup } from '../login/actions';
+import { Input } from '@/components/ui/input';
 import { createClient } from '@/utils/supabase/server';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import { signup } from '../login/actions';
 
 export default async function CreateAccountPage(props: {
 	searchParams: Promise<{

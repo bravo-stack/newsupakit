@@ -1,10 +1,10 @@
 'use client';
 
+import { oAuthSignIn } from '@/app/login/actions';
 import { Provider } from '@supabase/supabase-js';
 import { Github } from 'lucide-react';
 import { Fragment, JSX } from 'react';
 import { Button } from './ui/button';
-import { oAuthSignIn } from '@/app/login/actions';
 
 type OAuthProvider = {
 	name: Provider;

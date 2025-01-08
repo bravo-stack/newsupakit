@@ -1,12 +1,11 @@
-import { FormMessage } from '@/components/form-message';
-import { emailLogin, signup } from './actions';
 import FormErrorMessage from '@/components/form-error-message';
-import { Input } from '@/components/ui/input';
-import { SubmitButton } from '@/components/submit-button';
-import Link from 'next/link';
-import { createClient } from '@/utils/supabase/server';
-import { redirect } from 'next/navigation';
 import OAuthButtons from '@/components/oauth-signin';
+import { SubmitButton } from '@/components/submit-button';
+import { Input } from '@/components/ui/input';
+import { createClient } from '@/utils/supabase/server';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { emailLogin } from './actions';
 
 export default async function LoginPage(props: {
 	searchParams: Promise<{
