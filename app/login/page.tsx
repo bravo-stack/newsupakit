@@ -6,6 +6,7 @@ import { SubmitButton } from '@/components/submit-button';
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
+import OAuthButtons from '@/components/oauth-signin';
 
 export default async function LoginPage(props: {
 	searchParams: Promise<{
@@ -55,6 +56,7 @@ export default async function LoginPage(props: {
 					formAction={emailLogin}>
 					Log in
 				</SubmitButton>
+				<OAuthButtons />
 				<p className='mx-auto text-sm text-foreground'>
 					Don't have an account?{' '}
 					<Link
