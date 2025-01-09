@@ -1,9 +1,10 @@
 import { signOutAction } from '@/app/actions';
 import { hasEnvVars } from '@/utils/supabase/check-env-vars';
+import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
+import { ThemeSwitcher } from './theme-switcher';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
-import { createClient } from '@/utils/supabase/server';
 
 export default async function AuthButton() {
 	const supabase = await createClient();
@@ -46,8 +47,8 @@ export default async function AuthButton() {
 		);
 	}
 	return user ? (
-		<div className='flex items-center gap-4'>
-			Hey, {user.email}!
+		<div className='flex items-center gap-2 lg:gap-4'>
+			<span className='hidden lg:inline'>{user.email}</span>
 			<form action={signOutAction}>
 				<Button
 					type='submit'
@@ -55,6 +56,9 @@ export default async function AuthButton() {
 					Sign out
 				</Button>
 			</form>
+			<div className='w-fit h-full flex items-center'>
+				<ThemeSwitcher />
+			</div>
 		</div>
 	) : (
 		<div className='flex gap-2'>
@@ -70,6 +74,9 @@ export default async function AuthButton() {
 				variant={'default'}>
 				<Link href='/create-account'>Sign up</Link>
 			</Button>
+			<div className='h-full flex items-center'>
+				<ThemeSwitcher />
+			</div>
 		</div>
 	);
 }
