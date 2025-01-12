@@ -1,7 +1,7 @@
 'use client';
 import { addTodo } from '@/app/todos/actions';
 import { Todo } from '@/types/custom';
-import { LoaderIcon, Send } from 'lucide-react';
+import { Send } from 'lucide-react';
 import { useRef } from 'react';
 import { useFormStatus } from 'react-dom';
 import { TodoOptimisticUpdate } from './todoslist';
@@ -58,11 +58,7 @@ function FormContent() {
 				size='icon'
 				className='min-w-10'
 				disabled={pending}>
-				{pending ? (
-					<LoaderIcon className='animate-spin size-5' />
-				) : (
-					<Send className='h-5 w-5' />
-				)}
+				<Send className='h-5 w-5' />
 				<span className='sr-only'>Submit Todo</span>
 			</Button>
 		</>

@@ -31,7 +31,7 @@ function TodoCard({ todo, optimisticUpdate }: Props) {
 	const { pending } = useFormStatus();
 
 	return (
-		<Card className={cn('w-full', pending && 'opacity-50')}>
+		<Card className={cn('w-full')}>
 			<CardContent className='flex items-start gap-3 p-3'>
 				<span className='size-10 flex items-center justify-center'>
 					<Checkbox
