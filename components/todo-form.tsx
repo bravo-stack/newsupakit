@@ -1,13 +1,19 @@
 'use client';
 import { addTodo } from '@/app/todos/actions';
+import { Todo } from '@/types/custom';
 import { LoaderIcon, Send } from 'lucide-react';
 import { useRef } from 'react';
 import { useFormStatus } from 'react-dom';
+import { TodoOptimisticUpdate } from './todoslist';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import { Textarea } from './ui/textarea';
 
-export function TodoForm() {
+type Props = {
+	optimisticUpdate: TodoOptimisticUpdate;
+};
+
+export function TodoForm({ optimisticUpdate }: Props) {
 	// DATA INIT
 	const formRef = useRef<HTMLFormElement>(null);
 	return (
@@ -16,6 +22,14 @@ export function TodoForm() {
 				<form
 					ref={formRef}
 					action={async (data) => {
+						const newTodo: Todo = {
+							id: -1,
+							task: data.get('todo') as string,
+							is_complete: false,
+							inserted_at: '',
+							user_id: '',
+						};
+						optimisticUpdate({ action: 'create', todo: newTodo });
 						await addTodo(data);
 						formRef?.current?.reset();
 					}}

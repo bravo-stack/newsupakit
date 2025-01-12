@@ -4,25 +4,32 @@ import { deleteTodo, updateTodo } from '@/app/todos/actions';
 import { cn } from '@/lib/utils';
 import { Todo } from '@/types/custom';
 import { Trash2 } from 'lucide-react';
+import { startTransition } from 'react';
 import { useFormStatus } from 'react-dom';
+import { TodoOptimisticUpdate } from './todoslist';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import { Checkbox } from './ui/checkbox';
 
 type Props = {
 	todo: Todo;
+	optimisticUpdate: TodoOptimisticUpdate;
 };
 
-export function TodoItem({ todo }: Props) {
+export function TodoItem({ todo, optimisticUpdate }: Props) {
 	return (
 		<form>
-			<TodoCard todo={todo} />
+			<TodoCard
+				optimisticUpdate={optimisticUpdate}
+				todo={todo}
+			/>
 		</form>
 	);
 }
 
-function TodoCard({ todo }: Props) {
+function TodoCard({ todo, optimisticUpdate }: Props) {
 	const { pending } = useFormStatus();
+
 	return (
 		<Card className={cn('w-full', pending && 'opacity-50')}>
 			<CardContent className='flex items-start gap-3 p-3'>
@@ -32,6 +39,13 @@ function TodoCard({ todo }: Props) {
 						checked={Boolean(todo.is_complete)}
 						onCheckedChange={async (value) => {
 							if (value === 'indeterminate') return;
+							if (todo.id === -1) return;
+							startTransition(() => {
+								optimisticUpdate({
+									action: 'update',
+									todo: { ...todo, is_complete: value as boolean },
+								});
+							});
 							await updateTodo({ ...todo, is_complete: value as boolean });
 						}}
 					/>
@@ -41,8 +55,11 @@ function TodoCard({ todo }: Props) {
 				<Button
 					disabled={pending}
 					formAction={async () => {
+						if (todo.id === -1) return;
+						optimisticUpdate({ action: 'delete', todo });
 						await deleteTodo(todo.id);
 					}}
+					className='disabled:opacity-50'
 					variant='ghost'
 					size='icon'>
 					<Trash2 className='size-5' />
